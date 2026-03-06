@@ -1,21 +1,31 @@
 {
-  "name": "webpack-practice",
+  "name": "battleship",
   "version": "1.0.0",
   "description": "",
+  "keywords": [],
+  "homepage": "https://github.com/Pourixa/battleship#readme",
+  "bugs": {
+    "url": "https://github.com/Pourixa/battleship/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pourixa/battleship.git"
+  },
+  "license": "ISC",
+  "author": "",
   "main": "index.js",
-  
   "scripts": {
     "build": "webpack",
     "dev": "webpack serve",
-    "deploy": "git subtree push --prefix dist origin gh-pages"
+    "deploy": "git subtree push --prefix dist origin gh-pages",
+    "test": "jest"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
+    "@babel/preset-env": "^7.29.0",
     "css-loader": "^7.1.2",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.5",
+    "jest": "^30.2.0",
     "style-loader": "^4.0.0",
     "webpack": "^5.104.1",
     "webpack-cli": "^6.0.1",
