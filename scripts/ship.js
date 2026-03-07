@@ -1,21 +1,16 @@
-class Ship
-{
-constructor(len)
-{
+class Ship {
+  constructor(len) {
     this.length = len;
     this.sunk = false;
     this.numberOfHits = 0;
-}
-hit()
-{
+  }
+  hit() {
     this.numberOfHits++;
-}
-isSunk()
-{
-    if (this.length <= this.numberOfHits)
-        return true
-    return false
-}
+    if (this.length <= this.numberOfHits) this.sunk = true;
+  }
+  isSunk() {
+    return this.sunk;
+  }
 }
 
-export {Ship}
+export { Ship };

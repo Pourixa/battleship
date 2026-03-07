@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=BBH+Bartle&family=Black+Ops+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Black Ops One";
+}
+:root {
+  --main: white;
+  --second: #f4991a;
+  --alternate: #344f1f;
+}
+
+button {
+  padding: 1rem;
+  background-color: var(--second);
+  border-radius: 4px;
+}
+
+body {
+  max-height: 100vh;
+}
+
+.pvp,
+.pve {
+  display: none;
+}
+
+.home {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+.home > h1 {
+  justify-self: center;
+  align-self: center;
+
+  padding: 1rem;
+  border-radius: 2px;
+}
+.home > img {
+  max-height: 50vh;
+  justify-self: center;
+  align-self: center;
+}
+.home > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20vw;
+}
