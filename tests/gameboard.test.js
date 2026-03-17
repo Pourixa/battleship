@@ -12,3 +12,4 @@ test.skip('should place the ship', () => {
     testBoard.gameBoard[0][2] = a;
     expect(g.gameBoard.join(",")).toBe(testBoard.gameBoard.join(","))
 });
+
