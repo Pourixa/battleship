@@ -1,0 +1,138 @@
+@import url("https://fonts.googleapis.com/css2?family=BBH+Bartle&family=Black+Ops+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Black Ops One";
+}
+:root {
+  --main: white;
+  --second: #f4991a;
+  --alternate: #344f1f;
+}
+
+button {
+  padding: 1rem;
+  background-color: var(--second);
+  border-radius: 4px;
+}
+
+body {
+  max-height: 100vh;
+}
+
+.pvp,
+.pve {
+  display: none;
+}
+
+.home {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10%;
+}
+.home > h1 {
+  justify-self: center;
+  align-self: center;
+
+  padding: 1rem;
+  border-radius: 2px;
+}
+.home > img {
+  max-height: 50vh;
+  justify-self: center;
+  align-self: center;
+}
+.home > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20vw;
+}
+
+.pve {
+  display: grid;
+  justify-content: center;
+  margin-top: 10%;
+}
+.pve > .boards {
+  display: flex;
+  justify-content: space-between;
+  gap: 25vw;
+}
+.pve > .boards > .playerBoard,
+.pve > .boards > .radarBoard {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+}
+.pve > .boards > .playerBoard > div,
+.pve > .boards > .radarBoard > div {
+  min-height: 2rem;
+  min-width: 2rem;
+  border: black 1px solid;
+  background-color: aquamarine;
+}
+
+.pve > .ships {
+  display: grid;
+  grid-template-areas:
+    "head head head head head"
+    "carrier battleship cruiser submarine destroyer";
+  gap: 1rem;
+  background-color: var(--second);
+  border: 2px black dashed;
+  padding: 1rem;
+}
+.pve > .ships > h3 {
+  display: grid;
+  grid-area: head;
+  align-self: center;
+  justify-self: center;
+}
+
+.carrier {
+  grid-area: carrier;
+  display: grid;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+.battleship {
+  grid-area: battleship;
+  display: grid;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+.cruiser {
+  grid-area: cruiser;
+  display: grid;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+.submarine {
+  grid-area: submarine;
+  display: grid;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+.destroyer {
+  grid-area: destroyer;
+  display: grid;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.pve > .ships > div > div {
+  display: flex;
+}
+.pve > .ships > div > div > div {
+  min-height: 2rem;
+  min-width: 2rem;
+  border: black 1px solid;
+  background-color: var(--alternate);
+}
