@@ -13,8 +13,6 @@ test.skip("should place the ship", () => {
   expect(g.gameBoard.join(",")).toBe(testBoard.gameBoard.join(","));
 });
 
-<<<<<<< HEAD
-=======
 test.skip("hiting empty Space", () => {
   g.receiveAttack([1, 1]);
   expect(g.attacks[0][0]).toBe(1);
@@ -40,4 +38,3 @@ test.skip("report if all is sunk", () => {
 });
 
 
->>>>>>> 0326fba2f54dbeb834af14f098d85d6ad0691d80
