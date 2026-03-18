@@ -1,11 +1,10 @@
 import { GameBoard } from "../scripts/gameboard";
 import { RealPlayer, PCPlayer } from "../scripts/player";
 import { Ship } from "../scripts/ship";
+import { dragNdrop } from "../scripts/dragAndDrop";
 import "./style.css";
 
 function pvePage() {
-  //   <button>START</button>
-
   const PVEDIV = document.querySelector(".pve");
   const HOMEDIV = document.querySelector(".home");
   PVEDIV.style.display = "grid";
@@ -40,7 +39,7 @@ function pvePage() {
         div.class = i;
         radar.append(div);
       }
-      boardsDiv.append(player, radar);
+      boardsDiv.append(dragNdrop.makeRadDropable(player), radar);
       return boardsDiv;
     })(),
   );
@@ -67,10 +66,11 @@ function pvePage() {
       );
       CARRIER.appendChild(
         (() => {
-          const fdiv = document.createElement("div");
+          let fdiv = document.createElement("div");
           for (let i = 0; i <= 4; i++) {
             fdiv.appendChild(document.createElement("div"));
           }
+          fdiv = dragNdrop.makeElDragAble(fdiv);
           return fdiv;
         })(),
       );
@@ -86,10 +86,11 @@ function pvePage() {
       );
       BATTLESHIP.appendChild(
         (() => {
-          const fdiv = document.createElement("div");
+          let fdiv = document.createElement("div");
           for (let i = 0; i <= 3; i++) {
             fdiv.appendChild(document.createElement("div"));
           }
+          fdiv = dragNdrop.makeElDragAble(fdiv);
           return fdiv;
         })(),
       );
@@ -105,10 +106,11 @@ function pvePage() {
       );
       CRUISER.appendChild(
         (() => {
-          const fdiv = document.createElement("div");
+          let fdiv = document.createElement("div");
           for (let i = 0; i <= 2; i++) {
             fdiv.appendChild(document.createElement("div"));
           }
+          fdiv = dragNdrop.makeElDragAble(fdiv);
           return fdiv;
         })(),
       );
@@ -124,10 +126,11 @@ function pvePage() {
       );
       SUBMARINE.appendChild(
         (() => {
-          const fdiv = document.createElement("div");
+          let fdiv = document.createElement("div");
           for (let i = 0; i <= 2; i++) {
             fdiv.appendChild(document.createElement("div"));
           }
+          fdiv = dragNdrop.makeElDragAble(fdiv);
           return fdiv;
         })(),
       );
@@ -143,10 +146,11 @@ function pvePage() {
       );
       DESTROYER.appendChild(
         (() => {
-          const fdiv = document.createElement("div");
+          let fdiv = document.createElement("div");
           for (let i = 0; i <= 1; i++) {
             fdiv.appendChild(document.createElement("div"));
           }
+          fdiv = dragNdrop.makeElDragAble(fdiv);
           return fdiv;
         })(),
       );
