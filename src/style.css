@@ -136,3 +136,7 @@ body {
   border: black 1px solid;
   background-color: var(--alternate);
 }
+
+.draggable {
+  opacity: 100%;
+}
