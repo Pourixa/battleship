@@ -1,28 +1,28 @@
 class dragNdrop {
-
-  currShip = null
-  currLoc = [null,null]
-  currCell = null
-  distance = [null , null];
-  shipSizes = {
-    "CARRIER":5,
-    "BATTLESHIP":4,
-    "CRUISER":3,
-    "SUBMARINE":3,
-    "DESTROYER":2,
-  }
+  currLoc = [null, null];
+  distance = [null, null];
+  nBox = null;
+  shipSize = null;
+  
   static makeElDragAble(el) {
-     el.addEventListener("dragstart",(e) => {
+    el.addEventListener("dragstart", (e) => {
       this.currShip = e.target.previousElementSibling.textContent;
       const obj = e.target.getBoundingClientRect();
-     this.currLoc = [obj.x,obj.y];
-     const cX = e.target.clientX
-     const cY = e.target.clientY
+      const boxWidth = e.target.firstChild.getBoundingClientRect().width;
+      this.shipSize = e.target.childElementCount;
 
-    const eachRow = obj.width
+      this.currLoc = [obj.x, obj.y];
+      const cX = e.clientX;
+      const cY = e.clientY;
 
-     this.distance = []
-    })
+      this.distance = [cX - this.currLoc[0], cY - this.currLoc[1]];
+      let boxDistance = cX - this.currLoc[0] - boxWidth;
+      this.nBox = 0;
+      while (boxDistance > 0) {
+        this.nBox++;
+        boxDistance -= boxWidth;
+      }
+    });
 
     el.className = "draggable";
     el.draggable = true;
@@ -34,32 +34,47 @@ class dragNdrop {
       e.preventDefault();
       dragNdrop.showDropLoc(e.target);
     });
-    radar.addEventListener("dragleave" , (e) => {
+    radar.addEventListener("dragleave", (e) => {
       e.preventDefault();
-      dragNdrop.unShowDropLoc(e.target)
+      dragNdrop.unShowDropLoc(e.target);
     });
     radar.addEventListener("drop", (e) => {
       e.preventDefault();
       dragNdrop.putInPlace(e.target);
-      this.curr = null
+      this.curr = null;
     });
     return radar;
   }
 
-  static showDropLoc(e)
-  {
-    e.style.backgroundColor = "#344f1f"
+  static showDropLoc(e) {
+    const orig = e;
+    for (let i = 0; i <= this.nBox; i++) {
+      e.style.backgroundColor = "#344f1f";
+      e = e.previousSibling;
+    }
+    e = orig;
+    for (let i = this.nBox; i < this.shipSize; i++) {
+      e.style.backgroundColor = "#344f1f";
+      e = e.nextSibling;
+    }
   }
 
-  static unShowDropLoc(e)
-  {
-    e.style.backgroundColor = "aquamarine"
+  static unShowDropLoc(e) {
+    const orig = e;
+    for (let i = 0; i <= this.nBox; i++) {
+      e.style.backgroundColor = "aquamarine";
+      e = e.previousSibling;
+    }
+    e = orig;
+    for (let i = this.nBox; i < this.shipSize; i++) {
+      e.style.backgroundColor = "aquamarine";
+      e = e.nextSibling;
+    }
   }
 
   putInPlace(el) {
     el.getBoundingClientRect();
   }
-
 }
 
 export { dragNdrop };
