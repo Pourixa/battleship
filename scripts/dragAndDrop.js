@@ -3,7 +3,10 @@ class dragNdrop {
   distance = [null, null];
   nBox = null;
   shipSize = null;
-  
+  siblings = null;
+
+  // you can give a class to the divs that your drop unto
+
   static makeElDragAble(el) {
     el.addEventListener("dragstart", (e) => {
       this.currShip = e.target.previousElementSibling.textContent;
@@ -48,27 +51,53 @@ class dragNdrop {
 
   static showDropLoc(e) {
     const orig = e;
-    for (let i = 0; i <= this.nBox; i++) {
-      e.style.backgroundColor = "#344f1f";
-      e = e.previousSibling;
+    const y = Math.floor(e.getBoundingClientRect().y);
+    let flag = true;
+    this.siblings = [];
+    try {
+      for (let i = 0; i <= this.nBox; i++) {
+        this.siblings.push(e);
+        e = e.previousSibling;
+      }
+      e = orig;
+      for (let i = this.nBox; i < this.shipSize - 1; i++) {
+        e = e.nextSibling;
+        this.siblings.push(e);
+      }
+
+      let i = 0;
+      while (i < this.siblings.length && flag) {
+        if (y != Math.floor(this.siblings[i].getBoundingClientRect().y))
+          flag = !flag;
+        i++;
+      }
+    } catch (typeError) {
+      flag = !flag;
     }
-    e = orig;
-    for (let i = this.nBox; i < this.shipSize; i++) {
-      e.style.backgroundColor = "#344f1f";
-      e = e.nextSibling;
+    if (flag) {
+      this.siblings.forEach((el) => {
+        el.style.backgroundColor = "#344f1f";
+      });
     }
   }
 
   static unShowDropLoc(e) {
-    const orig = e;
-    for (let i = 0; i <= this.nBox; i++) {
-      e.style.backgroundColor = "aquamarine";
-      e = e.previousSibling;
+    const y = Math.floor(e.getBoundingClientRect().y);
+    let flag = true;
+    try {
+      let i = 0;
+      while (i < this.siblings.length && flag) {
+        if (y != Math.floor(this.siblings[i].getBoundingClientRect().y))
+          flag = !flag;
+        i++;
+      }
+    } catch (typeError) {
+      flag = !flag;
     }
-    e = orig;
-    for (let i = this.nBox; i < this.shipSize; i++) {
-      e.style.backgroundColor = "aquamarine";
-      e = e.nextSibling;
+    if (flag) {
+      this.siblings.forEach((el) => {
+        el.style.backgroundColor = "aquamarine";
+      });
     }
   }
 
