@@ -13,7 +13,7 @@ class dragNdrop {
       const obj = e.target.getBoundingClientRect();
       const boxWidth = e.target.firstChild.getBoundingClientRect().width;
       this.shipSize = e.target.childElementCount;
-
+      //fdsjfjidjfids
       this.currLoc = [obj.x, obj.y];
       const cX = e.clientX;
       const cY = e.clientY;
