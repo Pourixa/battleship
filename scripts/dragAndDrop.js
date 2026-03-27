@@ -1,3 +1,4 @@
+import { Elements } from "./elements";
 class dragNdrop {
   currLoc = [null, null];
   distance = [null, null];
@@ -5,25 +6,29 @@ class dragNdrop {
   shipSize = null;
   siblings = null;
   currShip = null;
+  flag = null;
+  shipsTab = document.querySelector(".ships").cloneNode();
 
   // you can give a class to the divs that your drop unto
 
   static makeElDragAble(el) {
     el.addEventListener("dragstart", (e) => {
-      this.currShip = e.target.previousElementSibling.textContent;
       const obj = e.target.getBoundingClientRect();
       const boxWidth = e.target.firstChild.getBoundingClientRect().width;
-      this.shipSize = e.target.childElementCount;
-      this.currShip = e.target;
-      this.currLoc = [obj.x, obj.y];
+      dragNdrop.shipSize = e.target.childElementCount;
+      dragNdrop.currShip = e.target;
+      dragNdrop.currLoc = [obj.x, obj.y];
       const cX = e.clientX;
       const cY = e.clientY;
 
-      this.distance = [cX - this.currLoc[0], cY - this.currLoc[1]];
-      let boxDistance = cX - this.currLoc[0] - boxWidth;
-      this.nBox = 0;
+      dragNdrop.distance = [
+        cX - dragNdrop.currLoc[0],
+        cY - dragNdrop.currLoc[1],
+      ];
+      let boxDistance = cX - dragNdrop.currLoc[0] - boxWidth;
+      dragNdrop.nBox = 0;
       while (boxDistance > 0) {
-        this.nBox++;
+        dragNdrop.nBox++;
         boxDistance -= boxWidth;
       }
     });
@@ -45,7 +50,7 @@ class dragNdrop {
     radar.addEventListener("drop", (e) => {
       e.preventDefault();
       dragNdrop.putInPlace(e.target);
-      this.curr = null;
+      dragNdrop.curr = null;
     });
     return radar;
   }
@@ -53,65 +58,81 @@ class dragNdrop {
   static showDropLoc(e) {
     const orig = e;
     const y = Math.floor(e.getBoundingClientRect().y);
-    let flag = true;
-    this.siblings = [];
+    dragNdrop.flag = true;
+    dragNdrop.siblings = [];
     try {
-      for (let i = 0; i <= this.nBox; i++) {
-        this.siblings.push(e);
+      for (let i = 0; i <= dragNdrop.nBox; i++) {
+        dragNdrop.siblings.push(e);
         e = e.previousSibling;
       }
       e = orig;
-      for (let i = this.nBox; i < this.shipSize - 1; i++) {
+      for (let i = dragNdrop.nBox; i < dragNdrop.shipSize - 1; i++) {
         e = e.nextSibling;
-        this.siblings.push(e);
+        dragNdrop.siblings.push(e);
       }
 
       let i = 0;
-      while (i < this.siblings.length && flag) {
+      while (i < dragNdrop.siblings.length && dragNdrop.flag) {
         if (
-          y != Math.floor(this.siblings[i].getBoundingClientRect().y) ||
-          this.siblings[i].classList.length >= 1
+          y != Math.floor(dragNdrop.siblings[i].getBoundingClientRect().y) ||
+          dragNdrop.siblings[i].classList.length >= 1
         )
-          flag = !flag;
+          dragNdrop.flag = !dragNdrop.flag;
         i++;
       }
     } catch (typeError) {
-      flag = !flag;
+      dragNdrop.flag = !dragNdrop.flag;
     }
-    if (flag) {
-      this.siblings.forEach((el) => {
+    if (dragNdrop.flag) {
+      dragNdrop.siblings.forEach((el) => {
         el.style.backgroundColor = "#344f1f";
       });
     }
   }
 
   static unShowDropLoc(e) {
-    let flag = true;
+    dragNdrop.flag = true;
     try {
       let i = 0;
-      while (i < this.siblings.length && flag) {
-        if (this.siblings[i].classList.length >= 1) flag = !flag;
+      while (i < dragNdrop.siblings.length && dragNdrop.flag) {
+        if (dragNdrop.siblings[i].classList.length >= 1)
+          dragNdrop.flag = !dragNdrop.flag;
         i++;
       }
     } catch (typeError) {
-      flag = !flag;
+      dragNdrop.flag = !dragNdrop.flag;
     }
 
-    if (flag) {
-      this.siblings.forEach((el) => {
+    if (dragNdrop.flag) {
+      dragNdrop.siblings.forEach((el) => {
         el.style.backgroundColor = "aquamarine";
       });
     }
   }
 
   static putInPlace(el) {
-    this.siblings.forEach((el) => {
-      el.className = this.currShip.previousElementSibling.textContent;
-    });
-    const parent = this.currShip.parentElement.parentElement;
-    this.currShip.parentElement.remove();
-    if (parent.childElementCount <= 1) {
-      parent.remove();
+    if (dragNdrop.flag) {
+      dragNdrop.siblings.forEach((el) => {
+        el.className = dragNdrop.currShip.previousElementSibling.textContent;
+      });
+
+      const parent = dragNdrop.currShip.parentElement.parentElement;
+      dragNdrop.currShip.parentElement.remove();
+      if (parent.childElementCount <= 1) {
+        const resetButt = document.createElement("button");
+        resetButt.textContent = "RESET";
+        resetButt.className = "reset";
+        resetButt.addEventListener("click", (e) => {
+          const playerBoard = document.querySelector(".playerBoard");
+          const childList = playerBoard.childNodes;
+          for (let i = 0; i < 100; i++) {
+            childList[i].style.backgroundColor = "aquamarine";
+            childList[i].className = "";
+          }
+          resetButt.replaceWith(Elements.shipsTab(dragNdrop.makeElDragAble));
+        });
+        parent.replaceWith(resetButt);
+      }
     }
   }
 }
