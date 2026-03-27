@@ -4,6 +4,7 @@ class dragNdrop {
   nBox = null;
   shipSize = null;
   siblings = null;
+  currShip = null;
 
   // you can give a class to the divs that your drop unto
 
@@ -13,7 +14,7 @@ class dragNdrop {
       const obj = e.target.getBoundingClientRect();
       const boxWidth = e.target.firstChild.getBoundingClientRect().width;
       this.shipSize = e.target.childElementCount;
-
+      this.currShip = e.target;
       this.currLoc = [obj.x, obj.y];
       const cX = e.clientX;
       const cY = e.clientY;
@@ -67,7 +68,10 @@ class dragNdrop {
 
       let i = 0;
       while (i < this.siblings.length && flag) {
-        if (y != Math.floor(this.siblings[i].getBoundingClientRect().y))
+        if (
+          y != Math.floor(this.siblings[i].getBoundingClientRect().y) ||
+          this.siblings[i].classList.length >= 1
+        )
           flag = !flag;
         i++;
       }
@@ -82,18 +86,17 @@ class dragNdrop {
   }
 
   static unShowDropLoc(e) {
-    const y = Math.floor(e.getBoundingClientRect().y);
     let flag = true;
     try {
       let i = 0;
       while (i < this.siblings.length && flag) {
-        if (y != Math.floor(this.siblings[i].getBoundingClientRect().y))
-          flag = !flag;
+        if (this.siblings[i].classList.length >= 1) flag = !flag;
         i++;
       }
     } catch (typeError) {
       flag = !flag;
     }
+
     if (flag) {
       this.siblings.forEach((el) => {
         el.style.backgroundColor = "aquamarine";
@@ -101,8 +104,15 @@ class dragNdrop {
     }
   }
 
-  putInPlace(el) {
-    el.getBoundingClientRect();
+  static putInPlace(el) {
+    this.siblings.forEach((el) => {
+      el.className = this.currShip.previousElementSibling.textContent;
+    });
+    const parent = this.currShip.parentElement.parentElement;
+    this.currShip.parentElement.remove();
+    if (parent.childElementCount <= 1) {
+      parent.remove();
+    }
   }
 }
 
