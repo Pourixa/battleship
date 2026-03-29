@@ -52,14 +52,13 @@ function pvePage() {
       const child = document.createElement("button");
       child.textContent = "START";
       child.addEventListener("click", (e) => {
-        function addShip (size,i)
-        {
+        function addShip(size, i) {
           let coords = [];
 
           for (let g = 0; g < size; g++) {
-            const x = Math.floor((i) / 9);
-            const y = (i) % 9;
-            coords.push([x, y]);
+            const row = Math.floor(i / 10);
+            const col = (i + g) % 10;
+            coords.push([row, col]);
           }
           return coords;
         }
@@ -68,27 +67,27 @@ function pvePage() {
           const board = document.querySelector(".playerBoard").childNodes;
           while (i < 100) {
             if (board[i].className == "CARRIER") {
-              const coords = addShip(5,i)
+              const coords = addShip(5, i);
               const ship = new Ship("CARRIER", 5);
               boardArray.placeShip(ship, coords);
-              i+=5
+              i += 5;
             } else if (board[i].className == "BATTLESHIP") {
-              const coords = addShip(4,i);
+              const coords = addShip(4, i);
               const ship = new Ship("BATTLESHIP", 4);
               boardArray.placeShip(ship, coords);
               i += 4;
             } else if (board[i].className == "CRUISER") {
-              const coords = addShip(3,i);
+              const coords = addShip(3, i);
               const ship = new Ship("CRUISER", 3);
               boardArray.placeShip(ship, coords);
               i += 3;
             } else if (board[i].className == "SUBMARINE") {
-              const coords = addShip(3,i)
+              const coords = addShip(3, i);
               const ship = new Ship("SUBMARINE", 3);
               boardArray.placeShip(ship, coords);
               i += 3;
             } else if (board[i].className == "DESTROYER") {
-              const coords = addShip(2,i)
+              const coords = addShip(2, i);
               const ship = new Ship("DESTROYER", 2);
               boardArray.placeShip(ship, coords);
               i += 2;
