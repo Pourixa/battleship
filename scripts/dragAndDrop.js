@@ -41,14 +41,17 @@ class dragNdrop {
   static makeRadDropable(radar) {
     radar.addEventListener("dragover", (e) => {
       e.preventDefault();
+      if (dragNdrop.currShip === null) return;
       dragNdrop.showDropLoc(e.target);
     });
     radar.addEventListener("dragleave", (e) => {
       e.preventDefault();
+      if (dragNdrop.currShip === null) return;
       dragNdrop.unShowDropLoc(e.target);
     });
     radar.addEventListener("drop", (e) => {
       e.preventDefault();
+      if (dragNdrop.currShip === null) return;
       dragNdrop.putInPlace(e.target);
       dragNdrop.curr = null;
     });
@@ -133,6 +136,13 @@ class dragNdrop {
         });
         parent.replaceWith(resetButt);
       }
+      dragNdrop.currLoc = [null, null];
+      dragNdrop.distance = [null, null];
+      dragNdrop.nBox = null;
+      dragNdrop.shipSize = null;
+      dragNdrop.siblings = null;
+      dragNdrop.currShip = null;
+      dragNdrop.flag = null;
     }
   }
 }

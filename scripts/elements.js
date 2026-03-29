@@ -4,6 +4,7 @@ class Elements {
     map.className = className;
     for (let i = 0; i < 100; i++) {
       const div = document.createElement("div");
+      div.draggable = false;
       div.class = i;
       map.append(div);
     }

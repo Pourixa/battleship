@@ -16,7 +16,7 @@ class GameBoard {
     this.sunkShips = [];
     this.ships = [];
   }
-  placeShip(ship, ...cords) {
+  placeShip(ship, cords) {
     cords.forEach((value) => {
       this.gameBoard[value[0]][value[1]] = ship;
     });
