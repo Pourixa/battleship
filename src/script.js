@@ -14,7 +14,7 @@ import "./style.css";
 function pvePage() {
   const PVEDIV = document.querySelector(".pve");
   const HOMEDIV = document.querySelector(".home");
-  const boardArray = new GameBoard();
+  let boardArray = null;
   PVEDIV.style.display = "grid";
   PVEDIV.appendChild(
     (() => {
@@ -52,6 +52,7 @@ function pvePage() {
       const child = document.createElement("button");
       child.textContent = "START";
       child.addEventListener("click", (e) => {
+        boardArray = new GameBoard();
         function addShip(size, i) {
           let coords = [];
 
