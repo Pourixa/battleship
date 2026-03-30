@@ -140,3 +140,7 @@ body {
 .draggable {
   opacity: 100%;
 }
+
+.hoverable:hover {
+  background-color: rgb(58, 109, 92);
+}

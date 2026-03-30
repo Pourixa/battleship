@@ -1,8 +1,8 @@
 import { GameBoard } from "../scripts/gameboard";
-import { RealPlayer, PCPlayer } from "../scripts/player";
 import { Ship } from "../scripts/ship";
 import { dragNdrop } from "../scripts/dragAndDrop";
 import { Elements } from "../scripts/elements";
+import { PVEgameplay } from "../scripts/gamelogic";
 import "./style.css";
 
 // CARRIER: 5,
@@ -94,7 +94,7 @@ function pvePage() {
               i += 2;
             } else i++;
           }
-          console.log(boardArray);
+          PVEgameplay(document,boardArray)
         }
       });
       return child;
