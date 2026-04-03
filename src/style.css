@@ -74,6 +74,9 @@ body {
   background-color: aquamarine;
 }
 
+.pve > .boards > .radarBoard > div.hoverable:hover {
+background-color: rgb(59, 114, 96);
+}
 .pve > .ships {
   display: grid;
   grid-template-areas:
@@ -141,6 +144,25 @@ body {
   opacity: 100%;
 }
 
-.hoverable:hover {
-  background-color: rgb(58, 109, 92);
+.hits div:first-of-type
+{
+  grid-area: player;
+  border:dashed black 2px;
+}
+
+.hits div:last-of-type
+{
+  grid-area: bot;
+  border:dashed black 2px;
+}
+
+.hits h1 {
+  justify-self: center;
+  grid-area: hits;
+}
+.hits {
+  background-color: #f4991a;
+  display: grid;
+  grid-template-areas: ". hits ."
+  "player . bot";
 }
