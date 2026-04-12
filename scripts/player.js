@@ -1,13 +1,96 @@
 import { GameBoard } from "./gameboard";
+import { Ship } from "./ship";
+const SHIPS = {
+  CARRIER: 5,
+  BATTLESHIP: 4,
+  CRUISER: 3,
+  SUBMARINE: 3,
+  DESTROYER: 2,
+};
 
 class RealPlayer {
   constructor(gameBoard) {
     this.gameBoard = gameBoard;
+    this.shipsSank =0;
+  }
+
+  playerHit(e, AIMap, doc, list) {
+    const ind = parseInt(e.target.id);
+    if (isNaN(ind)) return;
+    const row = Math.floor(ind / 10);
+    const col = ind % 10;
+    if (AIMap.receiveAttack([row, col])) {
+      e.target.style.backgroundColor = "#344f1f";
+      e.target.className = "hit";
+      list.appendChild(
+        (() => {
+          const hit = doc.createElement("li");
+          hit.textContent = "HIT";
+          return hit;
+        })(),
+      );
+      if (AIMap.sunkShips.length > this.shipsSank) {
+        this.shipsSank++;
+        list.appendChild(
+          (() => {
+            const hit = doc.createElement("h3");
+            hit.textContent = AIMap.sunkShips[this.shipsSank-1].name + " HAS BEEN ELIMINATED!";
+            return hit;
+          })(),
+        );
+        if(AIMap.isGameOver)
+        {
+          //WIINERSHOW
+        }
+      }
+    } else if (e.target.className != "hit" && e.target.className != "miss") {
+      e.target.style.backgroundColor = "red";
+
+      list.appendChild(
+        (() => {
+          const hit = doc.createElement("li");
+          hit.textContent = "MISS";
+          return hit;
+        })(),
+      );
+      e.target.className = "miss";
+    }
   }
 }
+
 class AIPlayer {
   constructor() {
-    this.gameBoard = new GameBoard();
-  } 
+    this.gameBoard = this.randomMapArrayGen();
+  }
+  randomMapArrayGen() {
+    const gameBoard = new GameBoard();
+    for (const [key, value] of Object.entries(SHIPS)) {
+      let flag = false;
+      let coords = null;
+      while (!flag) {
+        coords = [];
+        let valid = true;
+
+        const row = Math.floor(Math.random() * 9);
+        let col = Math.floor(Math.random() * 9);
+
+        while (col + value > 9) col = Math.floor(Math.random() * 9);
+
+        for (let i = 0; i < value; i++) {
+          if (gameBoard.gameBoard[row][col + i] !== 0) {
+            valid = false;
+            break;
+          }
+          coords.push([row, col + i]);
+        }
+
+        if (valid) flag = true;
+      }
+      const ship = new Ship(key, value);
+      gameBoard.placeShip(ship, coords);
+    }
+    return gameBoard;
+  }
+  botHit(playerMap) {}
 }
-export {RealPlayer,AIPlayer}
+export { RealPlayer, AIPlayer };
