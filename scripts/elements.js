@@ -123,6 +123,10 @@ class Elements {
     ships.append(CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER);
     return ships;
   }
+  static gameplay (document,)
+  {
+
+  }
 }
 
 export { Elements };

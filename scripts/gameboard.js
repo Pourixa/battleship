@@ -23,11 +23,17 @@ class GameBoard {
     this.ships.push(ship);
   }
   receiveAttack(cord) {
-    const hitLoc = this.gameBoard[cord[0]][cord[1]];
-    if (hitLoc === 0) this.attacks.push(cord);
-    else {
-      hitLoc.hit();
-      if (hitLoc.isSunk()) this.sunkShips.push(hitLoc);
+    if (this.gameBoard[cord[0]][cord[1]] === -1) return false;
+
+    if (this.gameBoard[cord[0]][cord[1]] === 0) {
+      this.gameBoard[cord[0]][cord[1]] = -1;
+      return false;
+    } else {
+      this.gameBoard[cord[0]][cord[1]].hit();
+      if (this.gameBoard[cord[0]][cord[1]].isSunk())
+        this.sunkShips.push(this.gameBoard[cord[0]][cord[1]]);
+      this.gameBoard[cord[0]][cord[1]] = -1;
+      return true;
     }
   }
   isGameOver() {
