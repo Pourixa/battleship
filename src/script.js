@@ -94,7 +94,7 @@ function pvePage() {
               i += 2;
             } else i++;
           }
-          PVEgameplay(document,boardArray)
+          PVEgameplay(document, boardArray);
         }
       });
       return child;

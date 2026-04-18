@@ -38,8 +38,11 @@ function PVEgameplay(doc, playerBoard) {
     i++;
   }
   radar.addEventListener("click", (e) => {
-    Hplayer.playerHit(e, bot.gameBoard, doc, pList);
-    //botHit()
+    if (
+      Hplayer.playerHit(e, bot.gameBoard, doc, pList) &&
+      !bot.gameBoard.isGameOver()
+    )
+      bot.botHit(Hplayer, doc, AList);
   });
 }
 

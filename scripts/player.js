@@ -11,7 +11,7 @@ const SHIPS = {
 class RealPlayer {
   constructor(gameBoard) {
     this.gameBoard = gameBoard;
-    this.shipsSank =0;
+    this.shipsSank = 0;
   }
 
   playerHit(e, AIMap, doc, list) {
@@ -34,15 +34,28 @@ class RealPlayer {
         list.appendChild(
           (() => {
             const hit = doc.createElement("h3");
-            hit.textContent = AIMap.sunkShips[this.shipsSank-1].name + " HAS BEEN ELIMINATED!";
+            hit.textContent =
+              AIMap.sunkShips[this.shipsSank - 1].name +
+              " HAS BEEN ELIMINATED!";
             return hit;
           })(),
         );
-        if(AIMap.isGameOver)
-        {
-          //WIINERSHOW
+        if (AIMap.isGameOver()) {
+          const hits = doc.querySelector(".hits");
+          hits.innerHTML = "";
+          hits.appendChild(
+            (() => {
+              const win = doc.createElement("h1");
+              win.textContent = "PLAYER WON!";
+              const boards = doc.querySelector(".boards");
+              boards.classList.add("over");
+              return win;
+            })(),
+          );
+          hits.className = "win";
         }
       }
+      return true;
     } else if (e.target.className != "hit" && e.target.className != "miss") {
       e.target.style.backgroundColor = "red";
 
@@ -54,13 +67,15 @@ class RealPlayer {
         })(),
       );
       e.target.className = "miss";
-    }
+      return true;
+    } else return false;
   }
 }
 
 class AIPlayer {
   constructor() {
     this.gameBoard = this.randomMapArrayGen();
+    this.shipsSank = 0;
   }
   randomMapArrayGen() {
     const gameBoard = new GameBoard();
@@ -91,6 +106,64 @@ class AIPlayer {
     }
     return gameBoard;
   }
-  botHit(playerMap) {}
+  botHit(player, doc, list) {
+    // select a cell and attack
+    const childs = doc.querySelector(".playerBoard").childNodes;
+    let playerMap = player.gameBoard.gameBoard;
+    let row, col;
+    let e;
+    do {
+      row = Math.floor(Math.random() * 10);
+      col = Math.floor(Math.random() * 10);
+    } while (playerMap[row][col] == -1);
+    e = childs[row * 10 + col];
+    if (player.gameBoard.receiveAttack([row, col])) {
+      e.style.backgroundColor = "#FC6400";
+      e.className = "hit";
+      list.appendChild(
+        (() => {
+          const hit = doc.createElement("li");
+          hit.textContent = "HIT";
+          return hit;
+        })(),
+      );
+      if (player.gameBoard.sunkShips.length > this.shipsSank) {
+        this.shipsSank++;
+        list.appendChild(
+          (() => {
+            const hit = doc.createElement("h3");
+            hit.textContent =
+              player.gameBoard.sunkShips[this.shipsSank - 1].name +
+              " HAS BEEN ELIMINATED!";
+            return hit;
+          })(),
+        );
+        if (player.gameBoard.isGameOver()) {
+          const hits = doc.querySelector(".hits");
+          hits.innerHTML = "";
+          hits.appendChild(
+            (() => {
+              const win = doc.createElement("h1");
+              win.textContent = "BOT WON!";
+              const boards = doc.querySelector(".boards");
+              boards.classList.add("over");
+              return win;
+            })(),
+          );
+          hits.className = "win";
+        }
+      }
+    } else {
+      e.style.backgroundColor = "red";
+      list.appendChild(
+        (() => {
+          const hit = doc.createElement("li");
+          hit.textContent = "MISS";
+          return hit;
+        })(),
+      );
+      e.className = "miss";
+    }
+  }
 }
 export { RealPlayer, AIPlayer };
